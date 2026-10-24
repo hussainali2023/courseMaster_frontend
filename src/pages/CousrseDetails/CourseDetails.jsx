@@ -94,26 +94,20 @@ export default function CourseDetails() {
 
                     <div className="flex flex-wrap gap-2 mt-3">
                         {course.tags?.map((tag, i) => (
-                            <span key={i} className="badge badge-outline" style={{
-                                borderColor: '#78A083',
-                                color: '#78A083'
-                            }}>
-                                {tag}
+                            <span key={i} className="badge bg-[#006FF9]/10 text-[#006FF9] border border-[#006FF9]/20 font-semibold px-3 py-1 text-xs rounded-full">
+                                #{tag}
                             </span>
                         ))}
                     </div>
 
-                    <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-base-content/70">
-                        Instructor: <span className="font-semibold">{course.instructorName}</span>
+                    <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-[#677489] dark:text-slate-300">
+                        Instructor: <span className="font-semibold text-[#111729] dark:text-white">{course.instructorName}</span>
                     </p>
 
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-4 mt-4 sm:mt-6">
-                        <p className="text-2xl sm:text-3xl font-bold" style={{ 
-                            background: 'linear-gradient(135deg, #78A083, #50727B)',
-                            WebkitBackgroundClip: 'text',
-                            WebkitTextFillColor: 'transparent',
-                            backgroundClip: 'text'
-                        }}>৳ {course.price * 100}</p>
+                        <p className="text-2xl sm:text-3xl font-extrabold text-[#111729] dark:text-white">
+                            ৳ {course.price?.toLocaleString()}
+                        </p>
 
                         <div>
                             {isAdmin ? (

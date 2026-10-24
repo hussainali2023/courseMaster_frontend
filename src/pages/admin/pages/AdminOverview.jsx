@@ -123,7 +123,7 @@ export default function AdminOverview() {
         {
             name: "Reviewed",
             value: assignments.filter((a) => a.status === "reviewed").length,
-            color: "#78A083",
+            color: "#006FF9",
         },
         {
             name: "Pending",
@@ -132,11 +132,13 @@ export default function AdminOverview() {
         },
     ];
 
-    // Enrollment by course (top 5)
-    const courseEnrollmentData = analytics?.topCourses?.slice(0, 5).map((course) => ({
-        name: course.courseTitle?.substring(0, 15) || "Unknown",
-        enrollments: course.count,
-    })) || [];
+    // Enrollment by course (top 5) - supports both data shapes
+    const courseEnrollmentData = (analytics?.topCourses || analytics?.enrollmentsByCourse || [])
+        .slice(0, 5)
+        .map((course) => ({
+            name: (course.courseTitle || course.courseName || "Course").substring(0, 15),
+            enrollments: course.count || course.enrollments || 0,
+        }));
 
     return (
         <div className="space-y-4 sm:space-y-6">
@@ -219,7 +221,7 @@ export default function AdminOverview() {
                                             borderRadius: "8px",
                                         }}
                                     />
-                                    <Bar dataKey="enrollments" fill="#78A083" radius={[8, 8, 0, 0]} />
+                                    <Bar dataKey="enrollments" fill="#006FF9" radius={[8, 8, 0, 0]} />
                                 </BarChart>
                             </ResponsiveContainer>
                         ) : (
@@ -292,7 +294,7 @@ export default function AdminOverview() {
                                         borderRadius: "8px",
                                     }}
                                 />
-                                <Bar dataKey="enrollments" fill="#50727B" radius={[0, 8, 8, 0]} />
+                                <Bar dataKey="enrollments" fill="#2D62FF" radius={[0, 8, 8, 0]} />
                             </BarChart>
                         </ResponsiveContainer>
                     </div>
