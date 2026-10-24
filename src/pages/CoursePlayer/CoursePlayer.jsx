@@ -141,7 +141,7 @@ export default function CoursePlayer() {
                                 <h3 className="card-title text-base sm:text-lg md:text-xl break-words">{lesson.title}</h3>
                                 <div className="bg-base-300 rounded overflow-hidden mt-2 sm:mt-4">
                                     <iframe
-                                        style={{ height: '700px', width: '300px' }}
+                                        style={{ height: '300px', width: '700px' }}
                                         src={convertToEmbedUrl(lesson.videoUrl)}
                                         title={lesson.title}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -235,7 +235,7 @@ export default function CoursePlayer() {
                                                 const hasQuiz = les.quiz && les.quiz.length > 0;
                                                 const hasLiveClass = !!les.liveClassLink;
                                                 const isCompleted = enrollment?.progress?.completedLessons?.includes(les._id);
-                                                
+
                                                 // Check if live class is upcoming
                                                 const isUpcoming = hasLiveClass && les.liveClassDate && new Date(les.liveClassDate) > new Date();
                                                 const liveClassDate = hasLiveClass && les.liveClassDate ? new Date(les.liveClassDate) : null;
@@ -320,7 +320,7 @@ function AssignmentSubmission({ courseId, lessonId, prompt, enrollment, onComple
             // Detect if answer is a link
             const isLink = answer.trim().startsWith("http://") || answer.trim().startsWith("https://");
             const answerType = isLink ? "link" : "text";
-            
+
             await submitAssignment({
                 courseId,
                 lessonId,
