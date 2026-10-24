@@ -4,6 +4,7 @@ import Logo from "./Logo";
 import ThemeToggle from "./ThemeToggle";
 import { getToken, clearToken } from "../../utils/auth";
 import { getMe } from "../../services/auth.api";
+import { User, LayoutDashboard, LogOut, Sparkles } from "lucide-react";
 
 export default function Navbar() {
     const navigate = useNavigate();
@@ -38,7 +39,7 @@ export default function Navbar() {
 
     const initials = me?.name
         ? me.name.split(" ").map(w => w[0]).slice(0, 2).join("").toUpperCase()
-        : "U";
+        : null;
 
     return (
         <header className="sticky top-0 z-50 bg-base-100/90 backdrop-blur-md border-b border-base-300 transition-colors">
@@ -69,70 +70,107 @@ export default function Navbar() {
                     </ul>
                 </div>
 
-                {/* RIGHT */}
-                <div className="navbar-end gap-2.5">
-                    {/* Theme Toggle */}
+                {/* RIGHT: Actions, Theme Toggle, Profile */}
+                <div className="navbar-end flex items-center gap-2.5">
+                    {/* Theme Toggle (Dark Mode Icon) */}
                     <ThemeToggle />
 
-                    {/* Desktop buttons if NOT logged in */}
+                    {/* When NOT logged in: Show Profile Icon + Auth Buttons */}
                     {!token && (
-                        <div className="hidden md:flex items-center gap-2">
-                            <Link to="/login" className="btn btn-sm btn-ghost text-[#111729] dark:text-white font-semibold">
-                                Sign In
+                        <div className="flex items-center gap-2">
+                            <Link 
+                                to="/login" 
+                                title="Sign in to your profile"
+                                className="w-9 h-9 rounded-full flex items-center justify-center border border-base-300 bg-base-100 hover:bg-base-200 text-[#111729] dark:text-white transition-all shadow-xs"
+                                aria-label="Profile Account"
+                            >
+                                <User className="w-4 h-4 text-[#006FF9]" />
                             </Link>
-                            <Link to="/register" className="btn btn-sm btn-primary px-5 shadow-sm">
-                                Enroll Now
-                            </Link>
+
+                            <div className="hidden sm:flex items-center gap-2">
+                                <Link to="/login" className="btn btn-sm btn-ghost text-[#111729] dark:text-white font-semibold">
+                                    Sign In
+                                </Link>
+                                <Link to="/register" className="btn btn-sm btn-primary px-5 shadow-sm font-bold">
+                                    Enroll Now
+                                </Link>
+                            </div>
                         </div>
                     )}
 
-                    {/* Desktop avatar if logged in */}
-                    {token && me && (
-                        <div className="hidden md:block dropdown dropdown-end">
-                            <label tabIndex={0} className="btn btn-ghost btn-circle avatar border border-base-300">
-                                <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#006FF9] to-[#2D62FF] text-white flex items-center justify-center font-bold text-sm shadow-xs">
-                                    {initials}
-                                </div>
+                    {/* When logged in: High-Visibility Profile Avatar & Dropdown */}
+                    {token && (
+                        <div className="dropdown dropdown-end">
+                            <label 
+                                tabIndex={0} 
+                                className="cursor-pointer flex items-center justify-center w-9 h-9 rounded-full bg-gradient-to-tr from-[#006FF9] to-[#2D62FF] text-white font-black text-xs shadow-md shadow-[#006FF9]/25 border-2 border-white dark:border-[#1E293B] hover:scale-105 transition-transform"
+                                title="Open Profile Menu"
+                                aria-label="User Profile"
+                            >
+                                {initials ? initials : <User className="w-4 h-4 text-white" />}
                             </label>
 
                             <ul
                                 tabIndex={0}
-                                className="dropdown-content mt-3 p-4 shadow-xl bg-base-100 rounded-2xl w-64 border border-base-300 space-y-1"
+                                className="dropdown-content mt-3 p-4 shadow-2xl bg-base-100 rounded-3xl w-64 border border-base-300 space-y-1.5 z-50"
                             >
                                 <div className="px-2 pb-3">
-                                    <p className="font-bold text-[#111729] dark:text-white leading-tight">{me.name}</p>
-                                    <p className="text-xs text-[#677489] truncate mt-0.5">{me.email}</p>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#006FF9] to-[#2D62FF] text-white flex items-center justify-center font-bold text-xs shrink-0">
+                                            {initials || <User className="w-3.5 h-3.5" />}
+                                        </div>
+                                        <div className="truncate">
+                                            <p className="font-bold text-[#111729] dark:text-white leading-tight truncate">
+                                                {me?.name || "My Account"}
+                                            </p>
+                                            <p className="text-xs text-[#677489] truncate mt-0.5">
+                                                {me?.email || "Signed in"}
+                                            </p>
+                                        </div>
+                                    </div>
                                     <span className="badge badge-primary text-[10px] mt-2 capitalize font-bold">
-                                        {me.role} Account
+                                        {me?.role || "User"} Account
                                     </span>
                                 </div>
 
                                 <div className="my-1 border-t border-base-300" />
 
                                 <li>
-                                    <Link to={me.role === "admin" ? "/admin" : "/student"} className="font-medium hover:text-[#006FF9] py-2 px-2 rounded-lg flex items-center">
-                                        Dashboard
+                                    <Link 
+                                        to={me?.role === "admin" ? "/admin" : "/student"} 
+                                        className="flex items-center gap-2.5 font-medium hover:text-[#006FF9] py-2 px-3 rounded-xl hover:bg-base-200 transition-colors"
+                                    >
+                                        <LayoutDashboard className="w-4 h-4 text-[#006FF9]" />
+                                        <span>Dashboard</span>
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link to="/profile" className="font-medium hover:text-[#006FF9] py-2 px-2 rounded-lg flex items-center">
-                                        My Profile
+                                    <Link 
+                                        to="/profile" 
+                                        className="flex items-center gap-2.5 font-medium hover:text-[#006FF9] py-2 px-3 rounded-xl hover:bg-base-200 transition-colors"
+                                    >
+                                        <User className="w-4 h-4 text-[#006FF9]" />
+                                        <span>My Profile</span>
                                     </Link>
                                 </li>
                                 <div className="my-1 border-t border-base-300" />
                                 <li>
-                                    <button onClick={handleLogout} className="text-red-500 font-semibold py-2 px-2 rounded-lg hover:bg-red-500/10 w-full text-left">
-                                        Sign Out
+                                    <button 
+                                        onClick={handleLogout} 
+                                        className="flex items-center gap-2.5 text-red-500 font-semibold py-2 px-3 rounded-xl hover:bg-red-500/10 w-full transition-colors text-left"
+                                    >
+                                        <LogOut className="w-4 h-4" />
+                                        <span>Sign Out</span>
                                     </button>
                                 </li>
                             </ul>
                         </div>
                     )}
 
-                    {/* Mobile hamburger */}
+                    {/* Mobile hamburger menu */}
                     <div className="dropdown dropdown-end md:hidden">
-                        <label tabIndex={0} className="btn btn-ghost btn-circle">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
+                        <label tabIndex={0} className="w-9 h-9 rounded-full flex items-center justify-center border border-base-300 bg-base-100 hover:bg-base-200 text-base-content cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                                     d="M4 6h16M4 12h16M4 18h16" />
@@ -141,7 +179,7 @@ export default function Navbar() {
 
                         <ul
                             tabIndex={0}
-                            className="menu dropdown-content mt-3 p-4 shadow-2xl bg-base-100 rounded-3xl w-64 border border-base-300 space-y-1.5"
+                            className="menu dropdown-content mt-3 p-4 shadow-2xl bg-base-100 rounded-3xl w-64 border border-base-300 space-y-1.5 z-50"
                         >
                             <li><NavLink className={navLinkClass} to="/">Home</NavLink></li>
                             <li><NavLink className={navLinkClass} to="/courses">Courses</NavLink></li>
@@ -161,24 +199,35 @@ export default function Navbar() {
 
                             {!token ? (
                                 <div className="space-y-2 pt-1">
-                                    <Link to="/login" className="btn btn-ghost btn-sm w-full font-semibold">Sign In</Link>
-                                    <Link to="/register" className="btn btn-primary btn-sm w-full font-bold">Enroll Now</Link>
+                                    <Link to="/login" className="btn btn-ghost btn-sm w-full font-semibold flex items-center justify-center gap-2">
+                                        <User className="w-4 h-4 text-[#006FF9]" />
+                                        <span>Sign In</span>
+                                    </Link>
+                                    <Link to="/register" className="btn btn-primary btn-sm w-full font-bold">
+                                        Enroll Now
+                                    </Link>
                                 </div>
                             ) : (
                                 <div className="space-y-2">
                                     <div className="flex items-center gap-2.5 p-2 rounded-xl bg-base-200">
                                         <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-[#006FF9] to-[#2D62FF] text-white flex items-center justify-center font-bold text-xs">
-                                            {initials}
+                                            {initials || <User className="w-3.5 h-3.5" />}
                                         </div>
                                         <div className="truncate">
                                             <p className="font-bold text-xs truncate">{me?.name}</p>
                                             <p className="text-[10px] text-[#677489] truncate">{me?.email}</p>
                                         </div>
                                     </div>
-                                    <li><Link to="/profile" className="py-2">My Profile</Link></li>
                                     <li>
-                                        <button onClick={handleLogout} className="text-red-500 font-semibold py-2">
-                                            Sign Out
+                                        <Link to="/profile" className="flex items-center gap-2 py-2">
+                                            <User className="w-4 h-4 text-[#006FF9]" />
+                                            <span>My Profile</span>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <button onClick={handleLogout} className="text-red-500 font-semibold flex items-center gap-2 py-2">
+                                            <LogOut className="w-4 h-4" />
+                                            <span>Sign Out</span>
                                         </button>
                                     </li>
                                 </div>
