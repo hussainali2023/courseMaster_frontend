@@ -5,20 +5,20 @@ export default function CourseCard({ course }) {
     const totalLessons = course.syllabus?.reduce((acc, mod) => acc + (mod.lessons?.length || 0), 0) || 0;
 
     return (
-        <div className="card bg-base-100 border border-base-300 hover:border-[#006FF9]/40 shadow-sm hover:shadow-xl hover:shadow-[#006FF9]/10 transition-all duration-300 group rounded-[24px] overflow-hidden flex flex-col h-full hover:-translate-y-1">
+        <div className="card bg-base-100 border border-base-300 hover:border-[#006FF9]/50 shadow-sm hover:shadow-xl hover:shadow-[#006FF9]/15 transition-all duration-300 group rounded-[24px] overflow-hidden flex flex-col h-full hover:-translate-y-1.5">
             {/* Visual Top Header Banner */}
             <div className="h-32 bg-gradient-to-br from-[#006FF9]/15 via-[#2D62FF]/10 to-transparent p-5 relative flex flex-col justify-between overflow-hidden border-b border-base-300/50">
                 <div className="absolute -right-6 -bottom-6 w-28 h-28 bg-[#006FF9]/15 rounded-full blur-2xl pointer-events-none"></div>
 
                 <div className="flex justify-between items-start relative z-10">
                     {course.category ? (
-                        <span className="badge bg-white/95 dark:bg-[#111729]/90 text-[#006FF9] border border-[#006FF9]/25 font-bold px-3 py-1 text-xs shadow-xs">
+                        <span className="badge bg-base-100 text-[#006FF9] border border-[#006FF9]/25 font-bold px-3 py-1 text-xs shadow-xs">
                             {course.category}
                         </span>
                     ) : (
                         <div></div>
                     )}
-                    <div className="flex items-center gap-1 bg-white/95 dark:bg-[#111729]/90 px-2.5 py-1 rounded-full text-xs font-bold text-amber-500 shadow-xs border border-amber-500/20">
+                    <div className="flex items-center gap-1 bg-base-100 px-2.5 py-1 rounded-full text-xs font-bold text-amber-500 shadow-xs border border-amber-500/20">
                         <Star className="w-3.5 h-3.5 fill-amber-500" /> 4.9
                     </div>
                 </div>

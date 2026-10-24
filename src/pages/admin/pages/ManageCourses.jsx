@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCourses, setPage } from "../../../store/slices/coursesSlice";
 import { deleteCourseAsync, clearSuccess } from "../../../store/slices/adminSlice";
 import { Link } from "react-router-dom";
+import { Plus, Edit2, Trash2, BookOpen, Layers } from "lucide-react";
 
 // Helper function to calculate syllabus statistics
 const getSyllabusStats = (course) => {
@@ -62,77 +63,99 @@ export default function ManageCourses() {
     }, [success, dispatch, page]);
 
     return (
-        <div className="space-y-4 sm:space-y-5">
+        <div className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
-                <h1 className="page-heading">Manage Courses</h1>
-                <Link to="/admin/courses/create" className="btn btn-primary btn-sm sm:btn-md w-full sm:w-auto">
-                    + New Course
+                <div className="space-y-1">
+                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#111729] dark:text-white">
+                        Manage Courses
+                    </h1>
+                    <p className="text-xs sm:text-sm text-[#677489]">
+                        Create, modify, and manage your courses, syllabi, and cohort batches
+                    </p>
+                </div>
+                <Link to="/admin/courses/create" className="btn btn-primary btn-sm rounded-full px-5 gap-1.5 font-bold shadow-xs">
+                    <Plus className="w-4 h-4" />
+                    <span>Create Course</span>
                 </Link>
             </div>
 
             {success && (
-                <div className="alert alert-success">
+                <div className="alert alert-success text-xs p-3 rounded-2xl shadow-xs">
                     <span>{success}</span>
                 </div>
             )}
 
             {error && (
-                <div className="alert alert-error">
+                <div className="alert alert-error text-xs p-3 rounded-2xl shadow-xs">
                     <span>{error}</span>
                 </div>
             )}
 
             {loading ? (
-                <div className="flex justify-center">
-                    <span className="loading loading-spinner"></span>
+                <div className="flex flex-col items-center justify-center py-16 space-y-2">
+                    <span className="loading loading-spinner loading-md text-[#006FF9]"></span>
+                    <p className="text-xs text-[#677489]">Loading course records...</p>
                 </div>
             ) : courses.length === 0 ? (
-                <div className="alert">No courses found</div>
+                <div className="card bg-base-100 border border-base-300 rounded-3xl p-8 text-center text-xs text-[#677489]">
+                    No courses found in database
+                </div>
             ) : (
                 <>
-                    {/* Table for md+ */}
-                    <div className="hidden md:block overflow-x-auto border border-base-300 rounded-lg">
-                        <table className="table w-full">
-                            <thead className="bg-base-200">
+                    {/* Table for md+ screens */}
+                    <div className="hidden md:block overflow-x-auto border border-base-300 rounded-3xl bg-base-100 shadow-sm">
+                        <table className="table table-sm w-full">
+                            <thead className="border-b border-base-300 text-xs text-[#677489]">
                                 <tr>
-                                    <th>Title</th>
+                                    <th className="py-3 pl-4">Title</th>
                                     <th>Instructor</th>
                                     <th>Price</th>
                                     <th>Category</th>
-                                    <th>Syllabus</th>
-                                    <th>Actions</th>
+                                    <th>Syllabus Scope</th>
+                                    <th className="text-right pr-4">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="divide-y divide-base-300 text-xs">
                                 {courses.map((course) => {
                                     const stats = getSyllabusStats(course);
                                     return (
-                                        <tr key={course._id} className="hover:bg-base-100">
-                                            <td className="max-w-xs truncate font-semibold">{course.title}</td>
-                                            <td>{course.instructorName}</td>
-                                            <td>৳{course.price}</td>
-                                            <td>{course.category || "-"}</td>
+                                        <tr key={course._id} className="hover:bg-base-200/50">
+                                            <td className="max-w-xs truncate font-bold text-[#111729] dark:text-white py-3 pl-4">
+                                                {course.title}
+                                            </td>
+                                            <td className="text-[#677489]">{course.instructorName}</td>
+                                            <td className="font-extrabold text-[#111729] dark:text-white">৳ {course.price?.toLocaleString()}</td>
+                                            <td>
+                                                <span className="badge bg-base-200 text-[#677489] text-[11px] font-semibold">
+                                                    {course.category || "General"}
+                                                </span>
+                                            </td>
                                             <td>
                                                 {stats.modules === 0 ? (
-                                                    <span className="text-xs text-base-content/50">No syllabus</span>
+                                                    <span className="text-[11px] text-[#677489]">No syllabus</span>
                                                 ) : (
-                                                    <div className="text-xs space-y-1">
-                                                        <div>📚 {stats.modules} Module{stats.modules !== 1 ? 's' : ''}</div>
-                                                        <div>📖 {stats.lessons} Lesson{stats.lessons !== 1 ? 's' : ''}</div>
-                                                        <div className="flex gap-3">
-                                                            {stats.quizzes > 0 && (
-                                                                <span className="text-primary">❓ {stats.quizzes} Quiz{stats.quizzes !== 1 ? 'zes' : ''}</span>
-                                                            )}
-                                                            {stats.assignments > 0 && (
-                                                                <span className="text-secondary">📝 {stats.assignments} Assignment{stats.assignments !== 1 ? 's' : ''}</span>
-                                                            )}
-                                                        </div>
+                                                    <div className="text-[11px] text-[#677489] flex items-center gap-2">
+                                                        <span>{stats.modules} Mod</span>
+                                                        <span>•</span>
+                                                        <span>{stats.lessons} Lessons</span>
                                                     </div>
                                                 )}
                                             </td>
-                                            <td className="space-x-2">
-                                                <Link to={`/admin/courses/edit/${course._id}`} className="btn btn-sm btn-warning">Edit</Link>
-                                                <button onClick={() => handleDelete(course._id)} className="btn btn-sm btn-error">Delete</button>
+                                            <td className="text-right pr-4 space-x-2">
+                                                <Link 
+                                                    to={`/admin/courses/edit/${course._id}`} 
+                                                    className="btn btn-xs btn-outline rounded-full px-3 font-bold"
+                                                >
+                                                    <Edit2 className="w-3 h-3" />
+                                                    <span>Edit</span>
+                                                </Link>
+                                                <button 
+                                                    onClick={() => handleDelete(course._id)} 
+                                                    className="btn btn-xs btn-outline btn-error rounded-full px-3 font-bold"
+                                                >
+                                                    <Trash2 className="w-3 h-3" />
+                                                    <span>Delete</span>
+                                                </button>
                                             </td>
                                         </tr>
                                     );
@@ -146,42 +169,23 @@ export default function ManageCourses() {
                         {courses.map((course) => {
                             const stats = getSyllabusStats(course);
                             return (
-                                <div key={course._id} className="card bg-base-100 shadow-sm border border-base-200">
-                                    <div className="card-body p-3 sm:p-4">
-                                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
-                                            <div className="flex-1 min-w-0">
-                                                <div className="font-semibold text-base sm:text-lg break-words">{course.title}</div>
-                                                <div className="text-xs sm:text-sm text-base-content/70 mt-1">{course.instructorName}</div>
-                                                <div className="text-xs sm:text-sm text-base-content/70">{course.category || "-"}</div>
-
-                                                {/* Syllabus Stats */}
-                                                {stats.modules > 0 && (
-                                                    <div className="mt-3 p-2 bg-base-200 rounded text-xs space-y-1">
-                                                        <div className="font-semibold">Syllabus:</div>
-                                                        <div>📚 {stats.modules} Module{stats.modules !== 1 ? 's' : ''} • 📖 {stats.lessons} Lesson{stats.lessons !== 1 ? 's' : ''}</div>
-                                                        {(stats.quizzes > 0 || stats.assignments > 0) && (
-                                                            <div className="flex flex-wrap gap-2">
-                                                                {stats.quizzes > 0 && (
-                                                                    <span className="text-primary">❓ {stats.quizzes} Quiz{stats.quizzes !== 1 ? 'zes' : ''}</span>
-                                                                )}
-                                                                {stats.assignments > 0 && (
-                                                                    <span className="text-secondary">📝 {stats.assignments} Assignment{stats.assignments !== 1 ? 's' : ''}</span>
-                                                                )}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                )}
-                                                {stats.modules === 0 && (
-                                                    <div className="mt-2 text-xs text-base-content/50">No syllabus added</div>
-                                                )}
-                                            </div>
-                                            <div className="flex sm:flex-col sm:text-right sm:ml-3 justify-between sm:justify-start items-center sm:items-end gap-2">
-                                                <div className="text-base sm:text-lg font-bold">৳{course.price}</div>
-                                                <div className="flex sm:flex-col gap-2">
-                                                    <Link to={`/admin/courses/edit/${course._id}`} className="btn btn-xs btn-warning">Edit</Link>
-                                                    <button onClick={() => handleDelete(course._id)} className="btn btn-xs btn-error">Delete</button>
-                                                </div>
-                                            </div>
+                                <div key={course._id} className="card bg-base-100 shadow-sm border border-base-300 rounded-2xl p-4 space-y-3">
+                                    <div className="flex justify-between items-start gap-2">
+                                        <div>
+                                            <div className="font-bold text-sm text-[#111729] dark:text-white">{course.title}</div>
+                                            <div className="text-xs text-[#677489] mt-0.5">{course.instructorName}</div>
+                                        </div>
+                                        <div className="font-black text-sm text-[#006FF9]">৳ {course.price?.toLocaleString()}</div>
+                                    </div>
+                                    <div className="flex justify-between items-center text-xs pt-2 border-t border-base-300">
+                                        <span className="text-[#677489]">{stats.modules} Modules</span>
+                                        <div className="flex gap-2">
+                                            <Link to={`/admin/courses/edit/${course._id}`} className="btn btn-xs btn-outline rounded-full">
+                                                Edit
+                                            </Link>
+                                            <button onClick={() => handleDelete(course._id)} className="btn btn-xs btn-error btn-outline rounded-full">
+                                                Delete
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -195,7 +199,7 @@ export default function ManageCourses() {
                                 <button
                                     key={pageNum}
                                     onClick={() => dispatch(setPage(pageNum))}
-                                    className={`btn btn-sm ${page === pageNum ? "btn-primary" : "btn-outline"}`}
+                                    className={`btn btn-xs sm:btn-sm rounded-full px-3.5 font-bold ${page === pageNum ? "btn-primary shadow-xs" : "btn-outline"}`}
                                 >
                                     {pageNum}
                                 </button>

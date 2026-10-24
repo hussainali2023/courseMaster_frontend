@@ -13,7 +13,7 @@ export default function HeroSection() {
 
             <div className="relative z-10 max-w-4xl mx-auto text-center space-y-7">
                 {/* Trust Signal / Category Pill */}
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white dark:bg-[#111729] border border-[#006FF9]/25 text-[#006FF9] text-xs sm:text-sm font-bold shadow-xs">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-base-100 border border-[#006FF9]/25 text-[#006FF9] text-xs sm:text-sm font-bold shadow-xs">
                     <Sparkles className="w-4 h-4 text-[#006FF9]" />
                     <span>The Premier Digital Product & Tech Learning Experience</span>
                 </div>
@@ -55,7 +55,7 @@ export default function HeroSection() {
                 <div className="pt-4 flex flex-wrap items-center justify-center gap-6 text-xs text-[#677489] dark:text-slate-400 font-medium">
                     <div className="flex items-center gap-1.5">
                         <ShieldCheck className="w-4 h-4 text-[#006FF9]" />
-                        <span>Verified 2026 Curricula</span>
+                        <span>Verified Curricula</span>
                     </div>
                     <div className="flex items-center gap-1.5">
                         <div className="flex text-amber-500">
@@ -75,7 +75,7 @@ export default function HeroSection() {
 
                 {/* Trust Signals Grid Cards */}
                 <div className="pt-8 grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-base-300 text-left">
-                    <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-white dark:bg-[#111729] border border-base-300 shadow-xs">
+                    <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-base-100 border border-base-300 shadow-xs">
                         <div className="w-10 h-10 rounded-full bg-[#006FF9]/10 text-[#006FF9] flex items-center justify-center shrink-0">
                             <BookOpen className="w-5 h-5" />
                         </div>
@@ -85,7 +85,7 @@ export default function HeroSection() {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-white dark:bg-[#111729] border border-base-300 shadow-xs">
+                    <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-base-100 border border-base-300 shadow-xs">
                         <div className="w-10 h-10 rounded-full bg-[#2D62FF]/10 text-[#2D62FF] flex items-center justify-center shrink-0">
                             <Users className="w-5 h-5" />
                         </div>
@@ -95,7 +95,7 @@ export default function HeroSection() {
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-white dark:bg-[#111729] border border-base-300 shadow-xs">
+                    <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-base-100 border border-base-300 shadow-xs">
                         <div className="w-10 h-10 rounded-full bg-[#006FF9]/10 text-[#006FF9] flex items-center justify-center shrink-0">
                             <Award className="w-5 h-5" />
                         </div>

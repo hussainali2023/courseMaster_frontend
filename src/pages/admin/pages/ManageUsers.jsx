@@ -185,21 +185,21 @@ export default function ManageUsers() {
                     <span>No users found</span>
                 </div>
             ) : (
-                <div className="card bg-base-100 border-2 border-base-300 shadow-lg">
+                <div className="card bg-base-100 border border-base-300 rounded-2xl shadow-sm overflow-hidden">
                     <div className="card-body p-0">
                         <div className="overflow-x-auto">
                             <table className="table w-full">
-                                <thead className="bg-base-200">
+                                <thead className="bg-base-200/60 text-xs uppercase tracking-wider text-[#677489] dark:text-slate-400 border-b border-base-300">
                                     <tr>
-                                        <th className="font-bold">Name</th>
-                                        <th className="font-bold">Email</th>
-                                        <th className="font-bold">Role</th>
-                                        <th className="font-bold">Status</th>
-                                        <th className="font-bold">Joined</th>
-                                        <th className="font-bold text-center">Actions</th>
+                                        <th className="font-bold py-3.5 pl-6">Name</th>
+                                        <th className="font-bold py-3.5 px-4">Email</th>
+                                        <th className="font-bold py-3.5 px-4">Role</th>
+                                        <th className="font-bold py-3.5 px-4">Status</th>
+                                        <th className="font-bold py-3.5 px-4">Joined</th>
+                                        <th className="font-bold py-3.5 pr-6 text-center">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="divide-y divide-base-200">
                                     {users.map((userItem) => {
                                         const isSelf = isCurrentUser(userItem._id);
                                         const isLoading = actionLoading === userItem._id;
@@ -208,38 +208,38 @@ export default function ManageUsers() {
                                         return (
                                             <tr
                                                 key={userItem._id}
-                                                className={`hover:bg-base-200/50 transition-colors ${
+                                                className={`hover:bg-base-200/40 transition-colors ${
                                                     userItem.isBanned ? "opacity-60" : ""
                                                 }`}
                                             >
-                                                <td className="font-semibold">{userItem.name}</td>
-                                                <td style={{ color: '#1e293b' }}>{userItem.email}</td>
-                                                <td>
+                                                <td className="font-semibold text-[#111729] dark:text-white pl-6 py-4">{userItem.name}</td>
+                                                <td className="text-[#677489] dark:text-slate-300 px-4 py-4">{userItem.email}</td>
+                                                <td className="px-4 py-4">
                                                     <span
-                                                        className={`badge badge-lg font-semibold ${
+                                                        className={`badge badge-sm font-semibold rounded-full px-3 py-1 ${
                                                             userItem.role === "admin"
-                                                                ? "badge-error"
-                                                                : "badge-primary"
+                                                                ? "badge-primary"
+                                                                : "badge-ghost bg-base-200 text-[#111729] dark:text-white"
                                                         }`}
                                                     >
                                                         {userItem.role?.toUpperCase()}
                                                     </span>
                                                 </td>
-                                                <td>
+                                                <td className="px-4 py-4">
                                                     {userItem.isBanned ? (
-                                                        <span className="badge badge-warning badge-lg font-semibold">
+                                                        <span className="badge badge-warning badge-sm font-semibold rounded-full px-3 py-1">
                                                             <Ban className="w-3 h-3 mr-1" />
                                                             BANNED
                                                         </span>
                                                     ) : (
-                                                        <span className="badge badge-success badge-lg font-semibold">
+                                                        <span className="badge badge-success badge-sm font-semibold rounded-full px-3 py-1 text-white">
                                                             <Unlock className="w-3 h-3 mr-1" />
                                                             ACTIVE
                                                         </span>
                                                     )}
                                                 </td>
-                                                <td>{new Date(userItem.createdAt).toLocaleDateString()}</td>
-                                                <td>
+                                                <td className="text-sm text-[#677489] dark:text-slate-400 px-4 py-4">{new Date(userItem.createdAt).toLocaleDateString()}</td>
+                                                <td className="pr-6 py-4">
                                                     <div className="flex justify-center">
                                                         <div className={`dropdown dropdown-end ${showMenu ? "dropdown-open" : ""}`}>
                                                             <button

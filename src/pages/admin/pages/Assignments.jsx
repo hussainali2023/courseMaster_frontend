@@ -87,41 +87,56 @@ export default function Assignments() {
             <h1 className="page-heading">Assignment Review</h1>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
-                <div className="card bg-primary text-primary-content shadow">
-                    <div className="card-body p-4 sm:p-6">
-                        <h3 className="font-semibold text-sm sm:text-base">Total Assignments</h3>
-                        <p className="text-2xl sm:text-3xl font-bold">{stats.total}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="card bg-base-100 border border-base-300 rounded-2xl shadow-sm p-5 hover:border-primary/40 transition-colors">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <span className="text-xs font-bold uppercase tracking-wider text-[#677489] dark:text-slate-400">Total Assignments</span>
+                            <p className="text-2xl sm:text-3xl font-black text-[#111729] dark:text-white mt-1">{stats.total}</p>
+                        </div>
+                        <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center text-[#006FF9] font-bold text-lg">
+                            📋
+                        </div>
                     </div>
                 </div>
 
-                <div className="card bg-warning text-warning-content shadow">
-                    <div className="card-body p-4 sm:p-6">
-                        <h3 className="font-semibold text-sm sm:text-base">Pending Review</h3>
-                        <p className="text-2xl sm:text-3xl font-bold">{stats.submitted}</p>
+                <div className="card bg-base-100 border border-base-300 rounded-2xl shadow-sm p-5 hover:border-warning/40 transition-colors">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <span className="text-xs font-bold uppercase tracking-wider text-[#677489] dark:text-slate-400">Pending Review</span>
+                            <p className="text-2xl sm:text-3xl font-black text-[#111729] dark:text-white mt-1">{stats.submitted}</p>
+                        </div>
+                        <div className="w-12 h-12 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-500 font-bold text-lg">
+                            ⏳
+                        </div>
                     </div>
                 </div>
 
-                <div className="card bg-success text-success-content shadow">
-                    <div className="card-body p-4 sm:p-6">
-                        <h3 className="font-semibold text-sm sm:text-base">Reviewed</h3>
-                        <p className="text-2xl sm:text-3xl font-bold">{stats.reviewed}</p>
+                <div className="card bg-base-100 border border-base-300 rounded-2xl shadow-sm p-5 hover:border-emerald-500/40 transition-colors">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <span className="text-xs font-bold uppercase tracking-wider text-[#677489] dark:text-slate-400">Reviewed</span>
+                            <p className="text-2xl sm:text-3xl font-black text-[#111729] dark:text-white mt-1">{stats.reviewed}</p>
+                        </div>
+                        <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 font-bold text-lg">
+                            ✓
+                        </div>
                     </div>
                 </div>
             </div>
 
             {/* Filters */}
-            <div className="card bg-base-100 shadow-sm">
-                <div className="card-body">
+            <div className="card bg-base-100 border border-base-300 rounded-2xl shadow-sm">
+                <div className="card-body p-4 sm:p-5">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-semibold">Filter by Status</span>
+                            <label className="label py-1">
+                                <span className="label-text font-bold text-xs uppercase tracking-wider text-[#677489] dark:text-slate-400">Filter by Status</span>
                             </label>
                             <select
                                 value={filterStatus}
                                 onChange={(e) => setFilterStatus(e.target.value)}
-                                className="select select-bordered"
+                                className="select select-bordered rounded-xl px-4 text-[#111729] dark:text-white bg-base-100 focus:border-[#006FF9]"
                             >
                                 <option value="all">All Assignments</option>
                                 <option value="submitted">Pending Review</option>
@@ -130,15 +145,15 @@ export default function Assignments() {
                         </div>
 
                         <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-semibold">Search Student</span>
+                            <label className="label py-1">
+                                <span className="label-text font-bold text-xs uppercase tracking-wider text-[#677489] dark:text-slate-400">Search Student</span>
                             </label>
                             <input
                                 type="text"
                                 placeholder="Search by student name..."
                                 value={searchStudent}
                                 onChange={(e) => setSearchStudent(e.target.value)}
-                                className="input input-bordered"
+                                className="input input-bordered rounded-xl px-4 text-[#111729] dark:text-white bg-base-100 focus:border-[#006FF9]"
                             />
                         </div>
                     </div>
@@ -309,57 +324,57 @@ export default function Assignments() {
             ) : (
                 <>
                     {/* Table view for md+ */}
-                    <div className="hidden md:block overflow-x-auto border border-base-300 rounded-lg">
+                    <div className="hidden md:block overflow-x-auto border border-base-300 rounded-2xl bg-base-100 shadow-sm overflow-hidden">
                         <table className="table w-full">
-                            <thead className="bg-base-200">
+                            <thead className="bg-base-200/60 text-xs uppercase tracking-wider text-[#677489] dark:text-slate-400 border-b border-base-300">
                                 <tr>
-                                    <th>Student</th>
-                                    <th>Course</th>
-                                    <th>Lesson</th>
-                                    <th>Submission</th>
-                                    <th>Submitted Date</th>
-                                    <th>Status</th>
-                                    <th>Grade</th>
-                                    <th>Actions</th>
+                                    <th className="py-3.5 pl-6 font-bold">Student</th>
+                                    <th className="py-3.5 px-4 font-bold">Course</th>
+                                    <th className="py-3.5 px-4 font-bold">Lesson</th>
+                                    <th className="py-3.5 px-4 font-bold">Submission</th>
+                                    <th className="py-3.5 px-4 font-bold">Submitted Date</th>
+                                    <th className="py-3.5 px-4 font-bold">Status</th>
+                                    <th className="py-3.5 px-4 font-bold">Grade</th>
+                                    <th className="py-3.5 pr-6 font-bold text-center">Actions</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="divide-y divide-base-200">
                                 {filteredAssignments.map((assign) => (
-                                    <tr key={assign._id} className="hover:bg-base-100">
-                                        <td className="font-semibold">{assign.student?.name}</td>
-                                        <td>{assign.course?.title}</td>
-                                        <td className="max-w-xs">
-                                            <span className="text-sm">{assign.lessonTitle || "Unknown"}</span>
+                                    <tr key={assign._id} className="hover:bg-base-200/40 transition-colors">
+                                        <td className="pl-6 py-4 font-semibold text-[#111729] dark:text-white">{assign.student?.name}</td>
+                                        <td className="px-4 py-4 text-[#111729] dark:text-slate-300">{assign.course?.title}</td>
+                                        <td className="px-4 py-4 max-w-xs">
+                                            <span className="text-sm text-[#677489] dark:text-slate-400">{assign.lessonTitle || "Unknown"}</span>
                                         </td>
-                                        <td className="max-w-xs">
+                                        <td className="px-4 py-4 max-w-xs">
                                             {assign.answerType === "link" ? (
                                                 <a
                                                     href={assign.answer}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="text-primary hover:underline text-xs truncate block"
+                                                    className="text-primary hover:underline text-xs truncate block font-medium"
                                                     title={assign.answer}
                                                 >
                                                     🔗 Link
                                                 </a>
                                             ) : (
-                                                <span className="text-xs truncate block" title={assign.answer}>
+                                                <span className="text-xs truncate block text-[#677489] dark:text-slate-300" title={assign.answer}>
                                                     📄 {assign.answer.substring(0, 30)}...
                                                 </span>
                                             )}
                                         </td>
-                                        <td>{new Date(assign.createdAt).toLocaleDateString()}</td>
-                                        <td>
+                                        <td className="px-4 py-4 text-sm text-[#677489] dark:text-slate-400">{new Date(assign.createdAt).toLocaleDateString()}</td>
+                                        <td className="px-4 py-4">
                                             <span
-                                                className={`badge ${assign.status === "submitted"
+                                                className={`badge badge-sm font-semibold rounded-full px-3 py-1 ${assign.status === "submitted"
                                                     ? "badge-warning"
-                                                    : "badge-success"
+                                                    : "badge-success text-white"
                                                     }`}
                                             >
                                                 {assign.status === "submitted" ? "Pending" : "Reviewed"}
                                             </span>
                                         </td>
-                                        <td>
+                                        <td className="px-4 py-4">
                                             {assign.grade !== null && assign.grade !== undefined ? (
                                                 <span className={`font-bold ${assign.grade >= 70 ? 'text-success' : assign.grade >= 50 ? 'text-warning' : 'text-error'}`}>
                                                     {assign.grade}%
@@ -368,11 +383,11 @@ export default function Assignments() {
                                                 <span className="text-base-content/50">-</span>
                                             )}
                                         </td>
-                                        <td>
-                                            <div className="flex items-center gap-2">
+                                        <td className="pr-6 py-4 text-center">
+                                            <div className="flex items-center justify-center gap-2">
                                                 {assign.status === "submitted" ? (
                                                     <button
-                                                        className="btn btn-sm btn-primary"
+                                                        className="btn btn-sm btn-primary rounded-full px-4"
                                                         onClick={() => startReview(assign._id)}
                                                         disabled={reviewingId === assign._id}
                                                     >
@@ -384,7 +399,7 @@ export default function Assignments() {
                                                     </button>
                                                 ) : (
                                                     <button
-                                                        className="btn btn-sm btn-outline"
+                                                        className="btn btn-sm btn-outline rounded-full px-4"
                                                         onClick={() => startReview(assign._id)}
                                                         disabled={reviewingId === assign._id}
                                                     >

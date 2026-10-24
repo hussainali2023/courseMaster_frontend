@@ -118,17 +118,17 @@ export default function CoursePlayer() {
         <div className="container mx-auto px-2 sm:px-4 py-2 sm:py-4">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 sm:gap-4 lg:gap-6">
                 <div className="lg:col-span-2 space-y-3 sm:space-y-4">
-                    <div className="card bg-base-100 shadow">
-                        <div className="card-body p-3 sm:p-6">
-                            <h2 className="card-title text-lg sm:text-xl md:text-2xl break-words">{currentCourse.title}</h2>
-                            <div className="flex justify-between items-center mt-2">
-                                <p className="text-xs sm:text-sm">Progress</p>
-                                <p className="text-xs sm:text-sm font-bold text-primary">
+                    <div className="card bg-base-100 border border-base-300 shadow-sm rounded-3xl">
+                        <div className="card-body p-5 sm:p-6">
+                            <h2 className="card-title text-lg sm:text-2xl font-extrabold text-[#111729] dark:text-white break-words">{currentCourse.title}</h2>
+                            <div className="flex justify-between items-center mt-3">
+                                <p className="text-xs sm:text-sm font-semibold text-[#677489]">Course Completion</p>
+                                <p className="text-sm sm:text-base font-black text-[#006FF9]">
                                     {enrollment?.progress?.percent || 0}%
                                 </p>
                             </div>
                             <progress
-                                className="progress progress-primary w-full mt-2"
+                                className="progress progress-primary w-full mt-2 h-2.5 rounded-full"
                                 value={enrollment?.progress?.percent || 0}
                                 max="100"
                             ></progress>
@@ -136,12 +136,12 @@ export default function CoursePlayer() {
                     </div>
 
                     {lesson?.videoUrl && (
-                        <div className="card bg-base-100 shadow">
-                            <div className="card-body p-3 sm:p-6">
-                                <h3 className="card-title text-base sm:text-lg md:text-xl break-words">{lesson.title}</h3>
-                                <div className="bg-base-300 rounded overflow-hidden mt-2 sm:mt-4">
+                        <div className="card bg-base-100 border border-base-300 shadow-sm rounded-3xl overflow-hidden">
+                            <div className="card-body p-5 sm:p-6 space-y-4">
+                                <h3 className="card-title text-base sm:text-xl font-bold text-[#111729] dark:text-white break-words">{lesson.title}</h3>
+                                <div className="w-full aspect-video rounded-2xl overflow-hidden bg-black border border-base-300">
                                     <iframe
-                                        style={{ height: '300px', width: '700px' }}
+                                        className="w-full h-full"
                                         src={convertToEmbedUrl(lesson.videoUrl)}
                                         title={lesson.title}
                                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -153,9 +153,9 @@ export default function CoursePlayer() {
                                 <button
                                     onClick={handleMarkComplete}
                                     disabled={!!enrollment?.progress?.completedLessons?.includes(lesson)}
-                                    className={`btn btn-sm sm:btn-md ${enrollment?.progress?.completedLessons?.includes(lesson) ? "btn-disabled" : "btn-success"} mt-3 sm:mt-4 w-full sm:w-auto`}
+                                    className={`btn btn-sm sm:btn-md rounded-full px-6 font-bold ${enrollment?.progress?.completedLessons?.includes(lesson) ? "btn-disabled opacity-50" : "btn-primary"} w-full sm:w-auto`}
                                 >
-                                    {enrollment?.progress?.completedLessons?.includes(lesson) ? "Completed ✓" : "✓ Mark as Complete"}
+                                    {enrollment?.progress?.completedLessons?.includes(lesson) ? "Lesson Completed ✓" : "✓ Mark as Complete"}
                                 </button>
                             </div>
                         </div>
@@ -163,24 +163,24 @@ export default function CoursePlayer() {
 
                     {/* Live Class Section */}
                     {lesson?.liveClassLink && (
-                        <div className="card bg-info/10 border-2 border-info shadow">
-                            <div className="card-body p-3 sm:p-6">
-                                <h3 className="card-title text-info">
-                                    🔴 Live Class Available
+                        <div className="card bg-[#006FF9]/5 border border-[#006FF9]/25 shadow-xs rounded-3xl">
+                            <div className="card-body p-5 sm:p-6 space-y-2">
+                                <h3 className="card-title text-[#006FF9] text-base sm:text-lg font-bold">
+                                    🔴 Live Class Session Available
                                 </h3>
                                 {lesson.liveClassDate && (
-                                    <p className="text-sm mb-2">
-                                        <strong>Scheduled:</strong> {new Date(lesson.liveClassDate).toLocaleString()}
+                                    <p className="text-xs sm:text-sm text-[#677489]">
+                                        <strong>Scheduled Date:</strong> {new Date(lesson.liveClassDate).toLocaleString()}
                                     </p>
                                 )}
-                                <div className="card-actions justify-end mt-3">
+                                <div className="card-actions justify-end pt-2">
                                     <a
                                         href={lesson.liveClassLink}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="btn btn-info"
+                                        className="btn btn-primary btn-sm rounded-full px-5 font-bold"
                                     >
-                                        Join Live Class
+                                        Join Live Class Now
                                     </a>
                                 </div>
                             </div>
@@ -208,60 +208,58 @@ export default function CoursePlayer() {
                     )}
                 </div>
 
-                <div className="card bg-base-100 shadow h-fit lg:sticky lg:top-20 order-first lg:order-last">
-                    <div className="card-body p-3 sm:p-6">
-                        <h3 className="card-title text-base sm:text-lg mb-2 sm:mb-4">Modules & Lessons</h3>
+                <div className="card bg-base-100 border border-base-300 shadow-sm rounded-3xl h-fit lg:sticky lg:top-24 order-first lg:order-last">
+                    <div className="card-body p-4 sm:p-6 space-y-3">
+                        <h3 className="card-title text-base sm:text-lg font-bold text-[#111729] dark:text-white">
+                            Syllabus & Modules
+                        </h3>
 
-                        <div className="space-y-2 sm:space-y-3 max-h-[40vh] sm:max-h-[50vh] lg:max-h-[70vh] overflow-y-auto">
+                        <div className="space-y-2.5 max-h-[40vh] sm:max-h-[50vh] lg:max-h-[70vh] overflow-y-auto pr-1">
                             {currentCourse.syllabus?.map((mod, modIdx) => (
-                                <div key={modIdx} className="space-y-2">
+                                <div key={modIdx} className="space-y-1.5">
                                     <button
                                         onClick={() => {
                                             setSelectedModule(modIdx);
                                             setSelectedLesson(0);
                                         }}
-                                        className={`w-full text-left font-semibold p-2 rounded transition ${selectedModule === modIdx
-                                            ? "bg-primary text-primary-content"
-                                            : "bg-base-200 hover:bg-base-300"
+                                        className={`w-full text-left font-bold text-xs sm:text-sm p-3 rounded-2xl transition-all ${selectedModule === modIdx
+                                            ? "bg-[#006FF9] text-white shadow-xs"
+                                            : "bg-base-200 hover:bg-base-300 text-[#111729] dark:text-white"
                                             }`}
                                     >
-                                        📚 {mod.title}
+                                        Module {modIdx + 1}: {mod.title}
                                     </button>
 
                                     {selectedModule === modIdx && (
-                                        <div className="space-y-1 pl-4">
+                                        <div className="space-y-1 pl-2">
                                             {mod.lessons?.map((les, lesIdx) => {
                                                 const hasAssignment = !!les.assignmentPrompt;
                                                 const hasQuiz = les.quiz && les.quiz.length > 0;
                                                 const hasLiveClass = !!les.liveClassLink;
                                                 const isCompleted = enrollment?.progress?.completedLessons?.includes(les._id);
 
-                                                // Check if live class is upcoming
-                                                const isUpcoming = hasLiveClass && les.liveClassDate && new Date(les.liveClassDate) > new Date();
-                                                const liveClassDate = hasLiveClass && les.liveClassDate ? new Date(les.liveClassDate) : null;
-
                                                 return (
                                                     <button
                                                         key={lesIdx}
                                                         onClick={() => setSelectedLesson(lesIdx)}
-                                                        className={`w-full text-left text-sm p-2 rounded transition flex items-center justify-between gap-2 ${selectedLesson === lesIdx
-                                                            ? "bg-secondary text-secondary-content"
-                                                            : "hover:bg-base-200"
+                                                        className={`w-full text-left text-xs p-2.5 rounded-xl transition flex items-center justify-between gap-2 ${selectedLesson === lesIdx
+                                                            ? "bg-[#006FF9]/15 text-[#006FF9] font-bold border border-[#006FF9]/30"
+                                                            : "hover:bg-base-200 text-[#677489] hover:text-[#111729] dark:hover:text-white"
                                                             }`}
                                                     >
-                                                        <span className="flex items-center gap-1 flex-1 min-w-0">
-                                                            {isCompleted && <span className="text-success">✓</span>}
+                                                        <span className="flex items-center gap-1.5 flex-1 min-w-0">
+                                                            {isCompleted && <span className="text-emerald-500 font-bold">✓</span>}
                                                             <span className="truncate">{les.title}</span>
                                                         </span>
                                                         <div className="flex items-center gap-1 flex-shrink-0">
                                                             {hasLiveClass && (
-                                                                <span className="badge badge-xs badge-info" title="Has Live Class">🔴</span>
+                                                                <span className="badge badge-xs badge-error py-1 px-1 text-[9px]" title="Live Class">Live</span>
                                                             )}
                                                             {hasAssignment && (
-                                                                <span className="badge badge-xs badge-secondary" title="Has Assignment">📝</span>
+                                                                <span className="badge badge-xs badge-secondary py-1 px-1 text-[9px]" title="Assignment">Task</span>
                                                             )}
                                                             {hasQuiz && (
-                                                                <span className="badge badge-xs badge-primary" title="Has Quiz">❓</span>
+                                                                <span className="badge badge-xs badge-primary py-1 px-1 text-[9px]" title="Quiz">Quiz</span>
                                                             )}
                                                         </div>
                                                     </button>
@@ -411,20 +409,20 @@ function AssignmentSubmission({ courseId, lessonId, prompt, enrollment, onComple
 
                         <div className="space-y-2 sm:space-y-3">
                             <div>
-                                <label className="text-xs font-medium text-gray-500 uppercase">Your Answer:</label>
+                                <label className="text-xs font-bold text-[#677489] dark:text-slate-400 uppercase">Your Answer:</label>
                                 {previousSubmission.answerType === "link" ? (
                                     <div className="mt-1">
                                         <a
                                             href={previousSubmission.answer}
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="link link-primary break-all text-xs sm:text-sm"
+                                            className="link link-primary break-all text-xs sm:text-sm font-semibold"
                                         >
                                             {previousSubmission.answer}
                                         </a>
                                     </div>
                                 ) : (
-                                    <p className="mt-1 text-xs sm:text-sm whitespace-pre-wrap bg-base-300 p-2 sm:p-3 rounded">
+                                    <p className="mt-1 text-xs sm:text-sm whitespace-pre-wrap bg-base-200 p-2 sm:p-3 rounded-xl border border-base-300">
                                         {previousSubmission.answer}
                                     </p>
                                 )}
@@ -432,8 +430,8 @@ function AssignmentSubmission({ courseId, lessonId, prompt, enrollment, onComple
 
                             {previousSubmission.grade !== null && previousSubmission.grade !== undefined && (
                                 <div>
-                                    <label className="text-xs font-medium text-gray-500 uppercase">Grade:</label>
-                                    <p className="text-xl sm:text-2xl font-bold text-primary mt-1">
+                                    <label className="text-xs font-bold text-[#677489] dark:text-slate-400 uppercase">Grade:</label>
+                                    <p className="text-xl sm:text-2xl font-black text-[#006FF9] mt-1">
                                         {previousSubmission.grade}%
                                     </p>
                                 </div>
@@ -441,8 +439,8 @@ function AssignmentSubmission({ courseId, lessonId, prompt, enrollment, onComple
 
                             {previousSubmission.reviewNotes && (
                                 <div>
-                                    <label className="text-xs font-medium text-gray-500 uppercase">Feedback:</label>
-                                    <p className="mt-1 text-xs sm:text-sm bg-base-300 p-2 sm:p-3 rounded whitespace-pre-wrap">
+                                    <label className="text-xs font-bold text-[#677489] dark:text-slate-400 uppercase">Feedback:</label>
+                                    <p className="mt-1 text-xs sm:text-sm bg-base-200 p-2 sm:p-3 rounded-xl border border-base-300 whitespace-pre-wrap">
                                         {previousSubmission.reviewNotes}
                                     </p>
                                 </div>
@@ -450,14 +448,14 @@ function AssignmentSubmission({ courseId, lessonId, prompt, enrollment, onComple
 
                             {previousSubmission.reviewer && (
                                 <div>
-                                    <label className="text-xs font-medium text-gray-500 uppercase">Reviewed by:</label>
-                                    <p className="text-xs sm:text-sm font-medium mt-1">
+                                    <label className="text-xs font-bold text-[#677489] dark:text-slate-400 uppercase">Reviewed by:</label>
+                                    <p className="text-xs sm:text-sm font-semibold mt-1">
                                         {previousSubmission.reviewer?.name || "Admin"}
                                     </p>
                                 </div>
                             )}
 
-                            <div className="text-xs text-gray-400 pt-2 border-t border-base-300">
+                            <div className="text-xs text-[#677489] dark:text-slate-400 pt-2 border-t border-base-300">
                                 Submitted: {new Date(previousSubmission.createdAt).toLocaleString()}
                             </div>
                         </div>

@@ -9,7 +9,9 @@
    - color-2:   #2D62FF (Accent & Interactive Electric Blue)
    - color-3:   #677489 (Text Secondary & Muted Metadata)
    - color-5:   #FFFFFF (Text Light & Surface Background)
-   Radii: 100px (Pill), 24px (Cards/Panels), 1600px (Containers)
+   Radii: 100px (Pill buttons/badges), 1.25rem-1.5rem (Cards)
+   Elevation: shadow-sm, shadow-card, shadow-hover
+   Motion: 0.2s - 0.4s cubic-bezier(0.75, 0, 0.25, 1)
    ========================================================================== */
 
 :root {
@@ -25,7 +27,7 @@
 
   --shadow-sm: rgba(12, 17, 28, 0.08) 0px 1px 2px 0px, rgba(12, 17, 28, 0.04) 0px 1px 3px 0px;
   --shadow-card: 0 4px 20px -2px rgba(17, 23, 41, 0.06), 0 2px 6px -1px rgba(17, 23, 41, 0.04);
-  --shadow-hover: 0 16px 32px -4px rgba(0, 111, 249, 0.12), 0 6px 16px -2px rgba(17, 23, 41, 0.06);
+  --shadow-hover: 0 16px 32px -4px rgba(0, 111, 249, 0.14), 0 6px 16px -2px rgba(17, 23, 41, 0.06);
 
   --font-family-sans: 'Plus Jakarta Sans', 'Inter', 'Neue Montreal', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
@@ -65,8 +67,7 @@
   --color-warning: #F59E0B;
   --color-error: #EF4444;
 
-  /* Radius — Pill Buttons as per Dipa Inhouse specs */
-  --radius-box: 1.5rem;
+  --radius-box: 1.25rem;
   --radius-btn: 100px;
   --radius-field: 0.875rem;
 }
@@ -106,7 +107,7 @@
   --color-warning: #FBBF24;
   --color-error: #F87171;
 
-  --radius-box: 1.5rem;
+  --radius-box: 1.25rem;
   --radius-btn: 100px;
   --radius-field: 0.875rem;
 }
@@ -158,16 +159,46 @@ body {
 }
 
 /* ============================================
-   BUTTON ENHANCEMENTS — Pill Shapes & Glows
+   DIPA TOKEN UTILITIES
+   ============================================ */
+.text-color-primary {
+  color: #111729;
+}
+[data-theme="dark"] .text-color-primary {
+  color: #F8FAFC !important;
+}
+
+.text-color-secondary {
+  color: #677489;
+}
+[data-theme="dark"] .text-color-secondary {
+  color: #94A3B8 !important;
+}
+
+.text-brand-blue {
+  color: #006FF9;
+}
+
+.bg-brand-blue {
+  background-color: #006FF9;
+}
+
+.border-brand-blue {
+  border-color: #006FF9;
+}
+
+/* ============================================
+   BUTTON ENHANCEMENTS — Pill Shapes
    ============================================ */
 .btn {
-  border-radius: 100px !important;
+  border-radius: 100px;
   font-weight: 600;
   letter-spacing: -0.01em;
   box-shadow: var(--shadow-sm);
   transition: transform 0.2s cubic-bezier(0.75, 0, 0.25, 1),
               box-shadow 0.2s cubic-bezier(0.75, 0, 0.25, 1),
-              background 0.2s ease;
+              background 0.2s ease,
+              border-color 0.2s ease;
 }
 
 .btn:not(.btn-circle):not(.btn-square) {
@@ -176,21 +207,21 @@ body {
 }
 
 .btn-circle {
-  width: 2.5rem !important;
-  height: 2.5rem !important;
-  min-height: 2.5rem !important;
-  padding: 0 !important;
-  border-radius: 9999px !important;
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  width: 2.5rem;
+  height: 2.5rem;
+  min-height: 2.5rem;
+  padding: 0;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-circle.btn-sm {
-  width: 2.25rem !important;
-  height: 2.25rem !important;
-  min-height: 2.25rem !important;
-  padding: 0 !important;
+  width: 2.25rem;
+  height: 2.25rem;
+  min-height: 2.25rem;
+  padding: 0;
 }
 
 .btn:hover {
@@ -203,119 +234,131 @@ body {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #006FF9 0%, #2D62FF 100%) !important;
-  color: #FFFFFF !important;
-  border: none !important;
-  box-shadow: 0 4px 14px 0 rgba(0, 111, 249, 0.35) !important;
+  background: linear-gradient(135deg, #006FF9 0%, #2D62FF 100%);
+  color: #FFFFFF;
+  border: none;
+  box-shadow: 0 4px 14px 0 rgba(0, 111, 249, 0.35);
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #2D62FF 0%, #006FF9 100%) !important;
-  box-shadow: 0 8px 24px 0 rgba(0, 111, 249, 0.45) !important;
-  color: #FFFFFF !important;
+  background: linear-gradient(135deg, #2D62FF 0%, #006FF9 100%);
+  box-shadow: 0 8px 24px 0 rgba(0, 111, 249, 0.45);
+  color: #FFFFFF;
 }
 
 .btn-secondary {
-  background: #111729 !important;
-  color: #FFFFFF !important;
-  border: none !important;
+  background: #111729;
+  color: #FFFFFF;
+  border: none;
 }
 
 [data-theme="dark"] .btn-secondary {
-  background: #1E293B !important;
-  color: #FFFFFF !important;
+  background: #1E293B;
+  color: #FFFFFF;
 }
 
 .btn-secondary:hover {
-  background: #1E293B !important;
-  box-shadow: 0 6px 20px -2px rgba(17, 23, 41, 0.2) !important;
+  background: #1E293B;
+  box-shadow: 0 6px 20px -2px rgba(17, 23, 41, 0.2);
+}
+
+[data-theme="dark"] .btn-secondary:hover {
+  background: #334155;
 }
 
 .btn-outline {
-  border: 1.5px solid #006FF9 !important;
-  color: #006FF9 !important;
-  background-color: transparent !important;
+  border: 1.5px solid #006FF9;
+  color: #006FF9;
+  background-color: transparent;
 }
 
 .btn-outline:hover {
-  background: #006FF9 !important;
-  color: #FFFFFF !important;
-  border-color: #006FF9 !important;
-  box-shadow: 0 4px 16px rgba(0, 111, 249, 0.3) !important;
+  background: #006FF9;
+  color: #FFFFFF;
+  border-color: #006FF9;
+  box-shadow: 0 4px 16px rgba(0, 111, 249, 0.3);
 }
 
 [data-theme="dark"] .btn-outline {
-  border-color: #38BDF8 !important;
-  color: #38BDF8 !important;
+  border-color: #38BDF8;
+  color: #38BDF8;
 }
 
 [data-theme="dark"] .btn-outline:hover {
-  background: #38BDF8 !important;
-  color: #111729 !important;
+  background: #38BDF8;
+  color: #111729;
 }
 
 /* ============================================
-   CARD ENHANCEMENTS — Sleek 24px Elevation
+   CARD ENHANCEMENTS — Proper Boundary & Safe Padding
    ============================================ */
 .card {
-  border-radius: 1.5rem !important;
+  border-radius: 1.25rem;
   border: 1px solid var(--color-base-300);
-  background-color: var(--color-base-100);
   box-shadow: var(--shadow-card);
   transition: transform 0.25s cubic-bezier(0.75, 0, 0.25, 1),
               box-shadow 0.25s cubic-bezier(0.75, 0, 0.25, 1),
               border-color 0.25s ease;
 }
 
+/* Only apply default background if no specific background utility is present */
+.card:not([class*="bg-"]) {
+  background-color: var(--color-base-100);
+}
+
 .card:hover {
-  transform: translateY(-3px);
   box-shadow: var(--shadow-hover);
   border-color: rgba(0, 111, 249, 0.3);
 }
 
 /* ============================================
-   INPUT & FORM STYLES
+   INPUT & FORM STYLES — Safe Inset so text never clips
    ============================================ */
 .input, .textarea, .select {
-  border-radius: 0.875rem !important;
+  border-radius: 0.875rem;
   border: 1px solid var(--color-base-300);
   background-color: var(--color-base-100);
   color: var(--color-base-content);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  padding-left: 1rem;
+  padding-right: 1rem;
 }
 
 .input:focus, .textarea:focus, .select:focus {
-  border-color: #006FF9 !important;
-  box-shadow: 0 0 0 3px rgba(0, 111, 249, 0.15) !important;
-  outline: none !important;
+  border-color: #006FF9;
+  box-shadow: 0 0 0 3px rgba(0, 111, 249, 0.15);
+  outline: none;
 }
 
 /* Search input with pill styling */
 .input-pill {
-  border-radius: 100px !important;
+  border-radius: 100px;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 /* ============================================
-   BADGES & PILLS
+   BADGES & PILLS — No text truncation
    ============================================ */
 .badge {
-  border-radius: 100px !important;
+  border-radius: 100px;
   font-weight: 600;
   font-size: 0.75rem;
   letter-spacing: 0.02em;
-  padding: 0.25rem 0.75rem;
+  padding: 0.35rem 0.85rem;
+  white-space: nowrap;
 }
 
 .badge-primary {
-  background-color: rgba(0, 111, 249, 0.12) !important;
-  color: #006FF9 !important;
-  border: 1px solid rgba(0, 111, 249, 0.25) !important;
+  background-color: rgba(0, 111, 249, 0.12);
+  color: #006FF9;
+  border: 1px solid rgba(0, 111, 249, 0.25);
 }
 
 [data-theme="dark"] .badge-primary {
-  background-color: rgba(56, 189, 248, 0.15) !important;
-  color: #38BDF8 !important;
-  border-color: rgba(56, 189, 248, 0.3) !important;
+  background-color: rgba(56, 189, 248, 0.15);
+  color: #38BDF8;
+  border-color: rgba(56, 189, 248, 0.3);
 }
 
 /* ============================================
@@ -342,14 +385,14 @@ body {
 }
 
 /* Glassmorphism */
-.glass {
+.glass-panel {
   background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(226, 232, 240, 0.8);
 }
 
-[data-theme="dark"] .glass {
+[data-theme="dark"] .glass-panel {
   background: rgba(17, 23, 41, 0.85);
   border-color: rgba(30, 41, 59, 0.8);
 }
@@ -358,26 +401,26 @@ body {
    HEADINGS & TYPOGRAPHY
    ============================================ */
 .page-heading {
-  font-size: clamp(1.5rem, 2.5vw, 2.25rem);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.2;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-  background-image: linear-gradient(135deg, #111729 0%, #006FF9 100%);
+  color: #111729;
 }
 
 [data-theme="dark"] .page-heading {
-  background-image: linear-gradient(135deg, #FFFFFF 0%, #38BDF8 100%);
+  color: #FFFFFF !important;
 }
 
 .page-heading-h2 {
-  font-size: clamp(1.15rem, 1.8vw, 1.5rem);
+  font-size: clamp(1.25rem, 2vw, 1.75rem);
   font-weight: 700;
   letter-spacing: -0.02em;
-  color: var(--color-base-content);
+  color: #111729;
+}
+
+[data-theme="dark"] .page-heading-h2 {
+  color: #FFFFFF !important;
 }
 
 /* Progress bar value */
@@ -395,4 +438,91 @@ body {
 .progress::-moz-progress-bar {
   background: linear-gradient(90deg, #006FF9, #2D62FF);
   border-radius: 100px;
+}
+
+/* ==========================================================================
+   GLOBAL DARK MODE TEXT & CONTRAST FIXES
+   Guarantees that no text is dark-on-dark or invisible in dark mode!
+   ========================================================================== */
+[data-theme="dark"] {
+  --color-base-100: #111729;
+  --color-base-200: #0B0F19;
+  --color-base-300: #1E293B;
+  --color-base-content: #F8FAFC;
+}
+
+[data-theme="dark"] body {
+  color: #F8FAFC;
+  background-color: #0B0F19;
+}
+
+/* Text overrides in dark mode */
+[data-theme="dark"] .text-\[\#111729\] {
+  color: #F8FAFC !important;
+}
+
+[data-theme="dark"] .text-\[\#677489\] {
+  color: #94A3B8 !important;
+}
+
+[data-theme="dark"] .text-base-content\/70 {
+  color: #94A3B8 !important;
+}
+
+[data-theme="dark"] .text-base-content\/60 {
+  color: #94A3B8 !important;
+}
+
+[data-theme="dark"] .text-base-content\/80 {
+  color: #E2E8F0 !important;
+}
+
+[data-theme="dark"] .text-gray-500,
+[data-theme="dark"] .text-gray-400 {
+  color: #94A3B8 !important;
+}
+
+/* Card and container overrides in dark mode */
+[data-theme="dark"] .card:not([class*="bg-"]) {
+  background-color: #111729 !important;
+  border-color: #1E293B !important;
+}
+
+[data-theme="dark"] .bg-base-100 {
+  background-color: #111729 !important;
+}
+
+[data-theme="dark"] .bg-base-200 {
+  background-color: #161F33 !important;
+}
+
+[data-theme="dark"] .bg-base-300 {
+  background-color: #1E293B !important;
+}
+
+[data-theme="dark"] .border-base-300 {
+  border-color: #1E293B !important;
+}
+
+/* Form controls in dark mode */
+[data-theme="dark"] .input,
+[data-theme="dark"] .textarea,
+[data-theme="dark"] .select {
+  background-color: #111729 !important;
+  color: #F8FAFC !important;
+  border-color: #1E293B !important;
+}
+
+[data-theme="dark"] .input::placeholder,
+[data-theme="dark"] .textarea::placeholder {
+  color: #64748B !important;
+}
+
+/* Table text in dark mode */
+[data-theme="dark"] table th {
+  color: #94A3B8 !important;
+}
+
+[data-theme="dark"] table td {
+  color: #F8FAFC !important;
 }

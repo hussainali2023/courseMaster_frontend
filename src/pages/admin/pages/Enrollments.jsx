@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEnrollments } from "../../../store/slices/adminSlice";
 import { fetchCourses } from "../../../store/slices/coursesSlice";
+import { Search, Filter, Users, Calendar, CheckCircle, GraduationCap } from "lucide-react";
 
 export default function Enrollments() {
     const dispatch = useDispatch();
@@ -23,41 +24,56 @@ export default function Enrollments() {
     });
 
     return (
-        <div className="space-y-4 sm:space-y-6">
-            <h1 className="page-heading">Enrollment Management</h1>
+        <div className="space-y-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                <div className="space-y-1">
+                    <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-[#111729] dark:text-white">
+                        Enrollment Management
+                    </h1>
+                    <p className="text-xs sm:text-sm text-[#677489] dark:text-slate-300">
+                        View enrolled students, cohorts, and active course access
+                    </p>
+                </div>
+                <div className="badge bg-[#006FF9]/10 text-[#006FF9] border border-[#006FF9]/25 font-bold px-3.5 py-1.5 text-xs">
+                    <Users className="w-3.5 h-3.5 mr-1.5" />
+                    <span>{filteredEnrollments.length} Active Records</span>
+                </div>
+            </div>
 
-            {/* Filters */}
-            <div className="card bg-base-100 shadow-sm">
-                <div className="card-body">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-semibold">Filter by Course</span>
-                            </label>
-                            <select
-                                value={selectedCourse}
-                                onChange={(e) => setSelectedCourse(e.target.value)}
-                                className="select select-bordered"
-                            >
-                                <option value="">All Courses</option>
-                                {courses.map((course) => (
-                                    <option key={course._id} value={course._id}>
-                                        {course.title}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+            {/* Filters - Generous padding so text is never cut */}
+            <div className="card bg-base-100 border border-base-300 rounded-2xl p-5 sm:p-6 shadow-xs">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-[#111729] dark:text-white flex items-center gap-1.5">
+                            <Filter className="w-3.5 h-3.5 text-[#006FF9]" />
+                            <span>Filter by Course</span>
+                        </label>
+                        <select
+                            value={selectedCourse}
+                            onChange={(e) => setSelectedCourse(e.target.value)}
+                            className="select w-full rounded-xl border border-base-300 bg-base-100 text-xs sm:text-sm font-medium px-4 py-2"
+                        >
+                            <option value="">All Courses ({courses.length} available)</option>
+                            {courses.map((course) => (
+                                <option key={course._id} value={course._id}>
+                                    {course.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-                        <div className="form-control">
-                            <label className="label">
-                                <span className="label-text font-semibold">Search Student</span>
-                            </label>
+                    <div className="space-y-1.5">
+                        <label className="text-xs font-bold text-[#111729] dark:text-white flex items-center gap-1.5">
+                            <Search className="w-3.5 h-3.5 text-[#006FF9]" />
+                            <span>Search Student</span>
+                        </label>
+                        <div className="relative">
                             <input
                                 type="text"
-                                placeholder="Search by student name..."
+                                placeholder="Search by student name or email..."
                                 value={searchStudent}
                                 onChange={(e) => setSearchStudent(e.target.value)}
-                                className="input input-bordered"
+                                className="input w-full rounded-xl border border-base-300 bg-base-100 text-xs sm:text-sm px-4 py-2"
                             />
                         </div>
                     </div>
@@ -66,36 +82,47 @@ export default function Enrollments() {
 
             {/* Results */}
             {loading ? (
-                <div className="flex justify-center">
-                    <span className="loading loading-spinner loading-lg"></span>
+                <div className="flex flex-col items-center justify-center py-16 space-y-2">
+                    <span className="loading loading-spinner loading-md text-[#006FF9]"></span>
+                    <p className="text-xs text-[#677489] dark:text-slate-400">Loading enrollment records...</p>
                 </div>
             ) : filteredEnrollments.length === 0 ? (
-                <div className="alert">
-                    <span>No enrollments found</span>
+                <div className="card bg-base-100 border border-base-300 rounded-2xl p-8 text-center text-xs text-[#677489] dark:text-slate-400">
+                    <span>No enrollments match the selected filters</span>
                 </div>
             ) : (
                 <>
-                    {/* Table view for md+ */}
-                    <div className="hidden md:block overflow-x-auto border border-base-300 rounded-lg">
-                        <table className="table w-full">
-                            <thead className="bg-base-200">
+                    {/* Table view for md+ screens with safe cell insets so rounded edges NEVER cut text */}
+                    <div className="hidden md:block overflow-x-auto border border-base-300 rounded-2xl bg-base-100 shadow-xs">
+                        <table className="table table-sm w-full">
+                            <thead className="border-b border-base-300 bg-base-200/50 text-xs text-[#677489] dark:text-slate-400">
                                 <tr>
-                                    <th>Student</th>
-                                    <th>Email</th>
-                                    <th>Course</th>
-                                    <th>Enrolled Date</th>
-                                    <th>Status</th>
+                                    <th className="py-3.5 pl-6 font-bold text-left">Student</th>
+                                    <th className="py-3.5 px-4 font-bold text-left">Email Address</th>
+                                    <th className="py-3.5 px-4 font-bold text-left">Course Enrolled</th>
+                                    <th className="py-3.5 px-4 font-bold text-left">Enrollment Date</th>
+                                    <th className="py-3.5 pr-6 font-bold text-right">Status</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody className="divide-y divide-base-300 text-xs">
                                 {filteredEnrollments.map((enr) => (
-                                    <tr key={enr._id} className="hover:bg-base-100">
-                                        <td className="font-semibold">{enr.student?.name}</td>
-                                        <td>{enr.student?.email}</td>
-                                        <td>{enr.course?.title}</td>
-                                        <td>{new Date(enr.createdAt).toLocaleDateString()}</td>
-                                        <td>
-                                            <span className="badge badge-success">Active</span>
+                                    <tr key={enr._id} className="hover:bg-base-200/40 transition-colors">
+                                        <td className="py-4 pl-6 font-bold text-[#111729] dark:text-white">
+                                            {enr.student?.name || "Student"}
+                                        </td>
+                                        <td className="py-4 px-4 text-[#677489] dark:text-slate-300">
+                                            {enr.student?.email || "No email"}
+                                        </td>
+                                        <td className="py-4 px-4 font-medium text-[#111729] dark:text-white max-w-xs truncate">
+                                            {enr.course?.title || "Course"}
+                                        </td>
+                                        <td className="py-4 px-4 text-[#677489] dark:text-slate-300">
+                                            {new Date(enr.createdAt).toLocaleDateString()}
+                                        </td>
+                                        <td className="py-4 pr-6 text-right">
+                                            <span className="badge bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 font-bold px-3 py-1 text-xs whitespace-nowrap">
+                                                Active
+                                            </span>
                                         </td>
                                     </tr>
                                 ))}
@@ -103,31 +130,40 @@ export default function Enrollments() {
                         </table>
                     </div>
 
-                    {/* Card view for small screens */}
+                    {/* Card view for small screens with safe padding so no text is cut */}
                     <div className="md:hidden space-y-3">
                         {filteredEnrollments.map((enr) => (
-                            <div key={enr._id} className="card bg-base-100 shadow-sm border border-base-200">
-                                <div className="card-body">
-                                    <div className="flex justify-between items-start">
-                                        <div>
-                                            <div className="font-semibold text-lg">{enr.student?.name}</div>
-                                            <div className="text-sm text-base-content/70">{enr.student?.email}</div>
-                                            <div className="text-sm text-base-content/70 mt-2">{enr.course?.title}</div>
-                                            <div className="text-xs text-base-content/60 mt-2">
-                                                Enrolled: {new Date(enr.createdAt).toLocaleDateString()}
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <span className="badge badge-success">Active</span>
-                                        </div>
+                            <div 
+                                key={enr._id} 
+                                className="card bg-base-100 border border-base-300 rounded-2xl p-5 shadow-xs space-y-2.5"
+                            >
+                                <div className="flex justify-between items-start gap-2">
+                                    <div className="space-y-0.5">
+                                        <h3 className="font-bold text-base text-[#111729] dark:text-white">
+                                            {enr.student?.name || "Student"}
+                                        </h3>
+                                        <p className="text-xs text-[#677489] dark:text-slate-300">
+                                            {enr.student?.email}
+                                        </p>
                                     </div>
+                                    <span className="badge bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 font-bold px-2.5 py-1 text-xs shrink-0">
+                                        Active
+                                    </span>
+                                </div>
+                                <div className="pt-2 border-t border-base-300 flex justify-between items-center text-xs">
+                                    <span className="font-semibold text-[#111729] dark:text-white truncate max-w-[200px]">
+                                        {enr.course?.title}
+                                    </span>
+                                    <span className="text-[#677489] dark:text-slate-400 text-[11px] shrink-0">
+                                        {new Date(enr.createdAt).toLocaleDateString()}
+                                    </span>
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    <div className="text-center text-sm text-base-content/60">
-                        Total: {filteredEnrollments.length} enrollment(s)
+                    <div className="text-center text-xs text-[#677489] dark:text-slate-400 pt-2">
+                        Displaying {filteredEnrollments.length} total enrollment record{filteredEnrollments.length === 1 ? "" : "s"}
                     </div>
                 </>
             )}
